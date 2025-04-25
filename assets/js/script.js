@@ -3,17 +3,23 @@ fetch("./assets/data/products.json")
   .then((res) => res.json())
   .then((products) => {
     const productList = document.getElementsByClassName("product_list")[0];
+    const categoryList = document.querySelector(".category_filter");
+    const categoryItem = categoryList.querySelectorAll("button");
+    let allProducts = products;
 
-    // 상품 리스트 만들기
-    products.forEach((product, i) => {
-      const item = document.createElement("li");
-      item.className = "product_item";
+    function renderProducts(products) {
+      productList.innerHTML = ""; // 기존 리스트 초기화
 
-      const sizeOptions = product.options.size
-        .map((s, i) => `<option value="${i}">${s.label}</option>`)
-        .join("");
+      // 상품 리스트 만들기
+      products.forEach((product, i) => {
+        const item = document.createElement("li");
+        item.className = "product_item";
 
-      item.innerHTML = `
+        const sizeOptions = product.options.size
+          .map((s, i) => `<option value="${i}">${s.label}</option>`)
+          .join("");
+
+        item.innerHTML = `
         <a href="${product.link}">
           <div class="product_img">
               <img src="${product.image}" alt="${product.name}" />
@@ -29,15 +35,40 @@ fetch("./assets/data/products.json")
         </a>
         <button class="product_cart_add btn btn_dark">장바구니 담기</button>
       `;
-      productList.appendChild(item);
+        productList.appendChild(item);
 
-      // 옵션에 따라 가격 변경
-      const select = item.querySelector("select[name='size']");
-      const priceTect = item.querySelector(".price_value");
+        // 제품 순차적으로 서서히 나타나기
+        setTimeout(() => {
+          item.classList.add("show");
+        }, i * 100);
 
-      select.addEventListener("change", (e) => {
-        const selected = product.options.size[+e.target.value]; // + = parseInt() // 문자열("0") -> 숫자(0)
-        priceTect.textContent = selected.price.toLocaleString();
+        // 옵션에 따라 가격 변경
+        const select = item.querySelector("select[name='size']");
+        const priceTect = item.querySelector(".price_value");
+
+        select.addEventListener("change", (e) => {
+          const selected = product.options.size[+e.target.value]; // + = parseInt() // 문자열("0") -> 숫자(0)
+          priceTect.textContent = selected.price.toLocaleString();
+        });
+      });
+    }
+
+    // 전체 상품 렌더링
+    renderProducts(allProducts);
+
+    // 카테고리 필터링
+    categoryItem.forEach((item) => {
+      item.addEventListener("click", () => {
+        categoryItem.forEach((el) => el.classList.remove("active"));
+        item.classList.add("active");
+
+        const selectedCategory = item.dataset.category;
+        const filtered =
+          selectedCategory === "all"
+            ? allProducts
+            : allProducts.filter((p) => p.category === selectedCategory);
+
+        renderProducts(filtered);
       });
     });
   });
