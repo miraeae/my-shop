@@ -149,6 +149,42 @@ function renderCart() {
 
 renderCart();
 
+// 장바구니 여닫기
+const cartDrawer = document.querySelector(".cart_drawer");
+const cartOverlay = document.querySelector(".cart_overlay");
+const cartOpenBtn = document.querySelector(".cart_open_btn");
+const cartCloseBtn = document.querySelector(".cart_close_btn");
+const body = document.body;
+
+cartOpenBtn.addEventListener("click", openCartDrawer);
+cartCloseBtn.addEventListener("click", closeCartDrawer);
+cartOverlay.addEventListener("click", closeCartDrawer);
+
+// 열기
+function openCartDrawer() {
+  body.classList.add("scroll-lock");
+  cartDrawer.style.display = "flex";
+
+  requestAnimationFrame(() => {
+    cartDrawer.classList.add("active");
+  });
+}
+
+// 닫기
+function closeCartDrawer() {
+  body.classList.remove("scroll-lock");
+  cartDrawer.classList.remove("active");
+
+  // 트랜지션 끝난 후 실행
+  cartDrawer.addEventListener("transitionend", function handler(e) {
+    if (e.propertyName === "transform") {
+      cartDrawer.style.display = "none";
+      cartDrawer.removeEventListener("transitionend", handler);
+    }
+    //console.log(e.propertyName);
+  });
+}
+
 // Main Slider
 const mainSlider = new Swiper(".visual .swiper", {
   //direction: 'vertical',
