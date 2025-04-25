@@ -147,6 +147,20 @@ function renderCart() {
   checkoutBtn.style.display = "block"; // 상품이 있으면 버튼 보임
 }
 
+// 장바구니 제품 삭제
+// 삭제 버튼은 동적으로 생성되기 때문에 리스트 전체에 등록하고,
+// 그 안에 클릭된 요소가 삭제 버튼인지 확인
+cartContainer.addEventListener("click", (e) => {
+  const removeBtn = e.target.closest(".cart_item_remove");
+  if (removeBtn) {
+    const index = +removeBtn.dataset.index;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+  }
+});
+
 renderCart();
 
 // 장바구니 여닫기
