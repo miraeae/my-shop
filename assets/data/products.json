@@ -1,0 +1,109 @@
+[
+  {
+    "id": 1,
+    "name": "인텐스 세럼",
+    "description": "중성, 복합성, 민감성 피부에 이상적",
+    "image": "./assets/images/product-01.webp",
+    "options": {
+      "size": [
+        { "label": "60 mL", "price": 113000 },
+        { "label": "80 mL", "price": 150000 }
+      ]
+    },
+    "category": "스킨케어",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 2,
+    "name": "밸런싱 젤",
+    "description": "복합성, 지성, 각질 피부에 이상적",
+    "image": "./assets/images/product-02.webp",
+    "options": {
+      "size": [{ "label": "60 mL", "price": 159000 }]
+    },
+    "category": "스킨케어",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 3,
+    "name": "레저렉션 아로마틱 핸드 밤",
+    "description": "시트러스, 우디, 허브 향",
+    "image": "./assets/images/product-06.webp",
+    "options": {
+      "size": [
+        { "label": "75 mL", "price": 39000 },
+        { "label": "120 mL", "price": 51000 },
+        { "label": "500 mL", "price": 130000 }
+      ]
+    },
+    "category": "핸드&바디",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 4,
+    "name": "밸런싱 토너",
+    "description": "대부분의 피부 타입에 이상적",
+    "image": "./assets/images/product-04.webp",
+    "options": {
+      "size": [
+        { "label": "100 mL", "price": 42000 },
+        { "label": "200 mL", "price": 67000 }
+      ]
+    },
+    "category": "스킨케어",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 5,
+    "name": "옥시던트 아이 크림",
+    "description": "대부분 피부 타입, 특히 건성 피부에 이상적",
+    "image": "./assets/images/product-05.webp",
+    "options": {
+      "size": [{ "label": "10 mL", "price": 97000 }]
+    },
+    "category": "스킨케어",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 6,
+    "name": "엑스폴리언트 페이스트",
+    "description": "건성 피부, 겨울 날씨의 피부에 이상적",
+    "image": "./assets/images/product-03.webp",
+    "options": {
+      "size": [
+        { "label": "75 mL", "price": 72000 },
+        { "label": "100 mL", "price": 102000 }
+      ]
+    },
+    "category": "스킨케어",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 7,
+    "name": "제라늄 리프 바디 밤",
+    "description": "그린, 시트러스, 상쾌한 향",
+    "image": "./assets/images/product-07.webp",
+    "options": {
+      "size": [
+        { "label": "100 mL", "price": 49000 },
+        { "label": "135 mL", "price": 135000 }
+      ]
+    },
+    "category": "핸드&바디",
+    "link": "javascript:void(0);"
+  },
+  {
+    "id": 8,
+    "name": "하이드레이팅 바디 밤",
+    "description": "스파이시, 우디, 따뜻한 향",
+    "image": "./assets/images/product-08.webp",
+    "options": {
+      "size": [
+        { "label": "100 mL", "price": 49000 },
+        { "label": "135 mL", "price": 135000 }
+      ]
+    },
+    "category": "핸드&바디",
+    "link": "javascript:void(0);"
+  }
+]
