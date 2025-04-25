@@ -29,8 +29,16 @@ fetch("./assets/data/products.json")
         </a>
         <button class="product_cart_add btn btn_dark">장바구니 담기</button>
       `;
-
       productList.appendChild(item);
+
+      // 옵션에 따라 가격 변경
+      const select = item.querySelector("select[name='size']");
+      const priceTect = item.querySelector(".price_value");
+
+      select.addEventListener("change", (e) => {
+        const selected = product.options.size[+e.target.value]; // + = parseInt() // 문자열("0") -> 숫자(0)
+        priceTect.textContent = selected.price.toLocaleString();
+      });
     });
   });
 
