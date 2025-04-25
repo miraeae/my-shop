@@ -120,6 +120,13 @@ function renderCart() {
     return;
   }
 
+  // 총 상품 수량
+  const cartTotalNum = cart.length;
+  document.querySelectorAll(".cart_total_num").forEach((num) => {
+    num.textContent = `${cartTotalNum}`;
+    num.style.display = "block";
+  });
+
   cart.forEach((item, index) => {
     const li = document.createElement("li");
     li.className = "cart_item";
@@ -147,6 +154,8 @@ function renderCart() {
   checkoutBtn.style.display = "block"; // 상품이 있으면 버튼 보임
 }
 
+renderCart();
+
 // 장바구니 제품 삭제
 // 삭제 버튼은 동적으로 생성되기 때문에 리스트 전체에 등록하고,
 // 그 안에 클릭된 요소가 삭제 버튼인지 확인
@@ -160,8 +169,6 @@ cartContainer.addEventListener("click", (e) => {
     renderCart();
   }
 });
-
-renderCart();
 
 // 장바구니 여닫기
 const cartDrawer = document.querySelector(".cart_drawer");
