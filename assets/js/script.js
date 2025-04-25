@@ -50,6 +50,27 @@ fetch("./assets/data/products.json")
           const selected = product.options.size[+e.target.value]; // + = parseInt() // 문자열("0") -> 숫자(0)
           priceTect.textContent = selected.price.toLocaleString();
         });
+
+        // 장바구니 담기 버튼 클릭 시 로컬스토리지에 저장
+        const cartAddBtn = item.querySelector(".product_cart_add");
+
+        cartAddBtn.addEventListener("click", () => {
+          const selectedSizeIndex = +select.value;
+          const selectedSize = product.options.size[selectedSizeIndex];
+
+          const cartItem = {
+            name: product.name,
+            size: selectedSize.label,
+            price: selectedSize.price,
+            image: product.image,
+          };
+
+          let cart = JSON.parse(localStorage.getItem("cart")) || []; // JSON 문자열 -> JS 객체
+          cart.push(cartItem);
+          localStorage.setItem("cart", JSON.stringify(cart)); // JS 객체 -> JSON 문자열
+          renderCart();
+          openCartDrawer();
+        });
       });
     }
 
@@ -72,6 +93,61 @@ fetch("./assets/data/products.json")
       });
     });
   });
+
+// 장바구니
+const cartContainer = document.querySelector(".cart_list");
+const cartTotal = document.querySelector(".cart_total");
+const checkoutBtn = document.querySelector(".checkout_btn");
+const cartNum = document.querySelectorAll(".cart_total_num");
+
+// 장바구니 렌더링
+function renderCart() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // 초기화
+  cartContainer.innerHTML = "";
+  let totalPrice = 0;
+
+  if (cart.length === 0) {
+    cartContainer.innerHTML = `<li class="cart_item_empty">장바구니가 비어 있어요.</li>`;
+    cartTotal.textContent = "";
+    checkoutBtn.style.display = "none";
+
+    cartNum.forEach((num) => {
+      num.style.display = "none";
+    });
+
+    return;
+  }
+
+  cart.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.className = "cart_item";
+    li.innerHTML = `
+      <div class="cart_item_info">
+        <div class="cart_item_img">
+          <img src="${item.image}" alt="${item.name}" />
+        </div>
+        <div class="cart_item_text">
+          <h4 class="cart_item_name">${item.name}</h4>
+          <p class="cart_item_option">사이즈: ${item.size}</p>
+          <p class="cart_item_price">₩${item.price.toLocaleString()}</p>
+        </div>
+      </div>
+      <button class="cart_item_remove" data-index="${index}">
+        <svg data-v-327431ea="" class="icon-remove" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33301 7.33301V10.6663M2.66634 3.99967H13.333L12.2797 13.4797C12.2436 13.8059 12.0884 14.1074 11.8438 14.3263C11.5993 14.5453 11.2826 14.6664 10.9543 14.6663H5.04501C4.71676 14.6664 4.40005 14.5453 4.15551 14.3263C3.91096 14.1074 3.75578 13.8059 3.71967 13.4797L2.66634 3.99967ZM4.89634 2.09767C5.00418 1.86899 5.17481 1.67567 5.38834 1.54028C5.60188 1.40489 5.8495 1.333 6.10234 1.33301H9.89701C10.15 1.33288 10.3977 1.40471 10.6114 1.5401C10.8251 1.6755 10.9958 1.86888 11.1037 2.09767L11.9997 3.99967H3.99967L4.89634 2.09767V2.09767ZM1.33301 3.99967H14.6663H1.33301ZM6.66634 7.33301V10.6663V7.33301Z" stroke="black" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
+    `;
+    cartContainer.prepend(li);
+
+    totalPrice += item.price; // 총 금액에 가격 추가
+  });
+
+  cartTotal.innerHTML = `<span>Total</span><span>₩${totalPrice.toLocaleString()}</span>`;
+  checkoutBtn.style.display = "block"; // 상품이 있으면 버튼 보임
+}
+
+renderCart();
 
 // Main Slider
 const mainSlider = new Swiper(".visual .swiper", {
