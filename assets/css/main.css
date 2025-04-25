@@ -101,13 +101,13 @@
 .visual_slider_control .btn_play {
   width: 14px;
   height: 14px;
-  background: url(/assets/images/icon-pause.png) no-repeat center center/
+  background: url(../images/icon-pause.png) no-repeat center center/
     contain;
   flex-shrink: 0;
 }
 
 .visual_slider_control .btn_play.on {
-  background-image: url(/assets/images/icon-play.png);
+  background-image: url(../images/icon-play.png);
 }
 
 .visual_slider_control .btn_play svg {
