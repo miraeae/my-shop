@@ -1,5 +1,5 @@
 ///// 상품 데이터 가져오기
-fetch("./src/data/products.json")
+fetch("./data/products.json")
   .then((res) => res.json())
   .then((products) => {
     const productList = document.getElementsByClassName("product__list")[0];
