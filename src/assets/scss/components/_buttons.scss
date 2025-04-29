@@ -1,0 +1,45 @@
+@use "../abstracts" as *;
+
+/* Button */
+.flat-btn {
+  display: block;
+  width: 100%;
+  min-width: 180px;
+  padding: 16px 25px;
+  line-height: 1;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.flat-btn--dark {
+  background-color: $dark-color;
+  color: $light-color;
+}
+.flat-btn--dark:hover {
+  background-color: #000;
+}
+
+.flat-btn--light {
+  background-color: $light-color;
+  color: $dark-color;
+}
+.flat-btn--light:hover {
+  background-color: #fff;
+}
+
+.flat-btn--line-light {
+  border: 1px solid $light-color;
+  color: #fff;
+}
+.flat-btn--line-light:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.flat-btn--line-dark {
+  border: 1px solid $dark-color;
+  color: #000;
+}
+.flat-btn--line-dark:hover {
+  background-color: #000;
+  color: #fff;
+}

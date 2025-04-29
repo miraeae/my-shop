@@ -1,0 +1,115 @@
+/* Footer */
+.footer {
+  position: relative;
+  border-top: 1px solid #eaeaea;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: #eaeaea;
+    left: 0;
+    top: 56px;
+  }
+
+  &__inner {
+    position: relative;
+    max-width: 1540px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__nav-list {
+    display: flex;
+    padding: 20px 0;
+    gap: 30px;
+    line-height: 1;
+  }
+
+  &__nav-item {
+    .bold {
+      font-weight: 700;
+    }
+  }
+
+  &__sns-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__sns-item {
+    width: 25px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    img {
+      display: block;
+    }
+  }
+
+  &__bottom {
+    padding-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    [class$="-name"] {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    [class$="-item"] {
+      padding: 1px 0;
+      font-size: 15px;
+
+      [class$="-label"] {
+        font-weight: 500;
+        display: inline-block;
+        margin-right: 5px;
+      }
+
+      [class$="-value"] {
+        display: inline-block;
+      }
+    }
+
+    .footer__hours-list {
+      margin-top: 5px;
+
+      .footer__hours-item {
+        padding: 0;
+        color: #666;
+      }
+    }
+  }
+}
+
+.top-button {
+  position: absolute;
+  right: 0;
+  bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: var(--dark-color);
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #000;
+  }
+}
