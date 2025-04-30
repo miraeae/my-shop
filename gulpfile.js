@@ -10,6 +10,7 @@ const sourcemaps = require("gulp-sourcemaps");
 const babel = require("gulp-babel");
 const browserSync = require("browser-sync").create();
 const del = require("del");
+const ghPages = require("gulp-gh-pages");
 
 // 경로 설정
 const paths = {
@@ -87,6 +88,16 @@ function data() {
   return gulp.src(paths.data.src).pipe(gulp.dest(paths.data.dest));
 }
 
+// 배포
+function deploy() {
+  return gulp.src("dist/**/*").pipe(ghPages());
+}
+
+// 배포 후 publish 폴더 삭제
+function cleanPublish() {
+  return del(["publish"]);
+}
+
 // 정리
 function clean() {
   return del(["dist"]);
@@ -121,5 +132,6 @@ exports.scripts = scripts;
 exports.images = images;
 exports.clean = clean;
 exports.data = data;
+exports.deploy = gulp.series(deploy, cleanPublish);
 exports.build = build;
 exports.default = dev;
