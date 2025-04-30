@@ -95,7 +95,7 @@ function deploy() {
 
 // 배포 후 publish 폴더 삭제
 function cleanPublish() {
-  return del(["publish"]);
+  return del([".publish"]);
 }
 
 // 정리
@@ -132,6 +132,7 @@ exports.scripts = scripts;
 exports.images = images;
 exports.clean = clean;
 exports.data = data;
+exports.cleanPublish = cleanPublish;
 exports.deploy = gulp.series(deploy, cleanPublish);
 exports.build = build;
 exports.default = dev;
