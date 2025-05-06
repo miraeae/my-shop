@@ -63,11 +63,22 @@ fetch("./data/products.json")
             size: selectedSize.label,
             price: selectedSize.price,
             image: product.image,
+            quantity: 1,
           };
 
-          let cart = JSON.parse(localStorage.getItem("cart")) || []; // JSON 문자열 -> JS 객체
-          cart.push(cartItem);
-          localStorage.setItem("cart", JSON.stringify(cart)); // JS 객체 -> JSON 문자열
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          const existingItem = cart.find(
+            (item) => item.name === cartItem.name && item.size === cartItem.size
+          );
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cart.push(cartItem);
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
           renderCart();
           openCartDrawer();
         });
@@ -131,23 +142,28 @@ function renderCart() {
     const li = document.createElement("li");
     li.className = "cart__item";
     li.innerHTML = `
-      <div class="cart__item-content">
-        <div class="cart__item-img">
-          <img src="${item.image}" alt="${item.name}" />
-        </div>
-        <div class="cart__item-text">
-          <h4 class="cart__item-name">${item.name}</h4>
-          <p class="cart__item-option">사이즈: ${item.size}</p>
-          <p class="cart__item-price">₩${item.price.toLocaleString()}</p>
+      <div class="cart__item-img">
+        <img src="${item.image}" alt="${item.name}" />
+      </div>
+      <div class="cart__item-info">
+        <h4 class="cart__item-name">${item.name}</h4>
+        <p class="cart__item-option">사이즈: ${item.size}</p>
+        <p class="cart__item-price">₩${item.price.toLocaleString()}</p>
+      </div>
+      <div class="cart__item-actions">
+        <button class="cart__item-remove" data-index="${index}">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33301 7.33301V10.6663M2.66634 3.99967H13.333L12.2797 13.4797C12.2436 13.8059 12.0884 14.1074 11.8438 14.3263C11.5993 14.5453 11.2826 14.6664 10.9543 14.6663H5.04501C4.71676 14.6664 4.40005 14.5453 4.15551 14.3263C3.91096 14.1074 3.75578 13.8059 3.71967 13.4797L2.66634 3.99967ZM4.89634 2.09767C5.00418 1.86899 5.17481 1.67567 5.38834 1.54028C5.60188 1.40489 5.8495 1.333 6.10234 1.33301H9.89701C10.15 1.33288 10.3977 1.40471 10.6114 1.5401C10.8251 1.6755 10.9958 1.86888 11.1037 2.09767L11.9997 3.99967H3.99967L4.89634 2.09767V2.09767ZM1.33301 3.99967H14.6663H1.33301ZM6.66634 7.33301V10.6663V7.33301Z" stroke="black" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+        <div class="cart__item-quantity">
+          <button class="cart__qty-btn dec" data-index="${index}">-</button>
+          <span class="cart__qty">${item.quantity}</span>
+          <button class="cart__qty-btn inc" data-index="${index}">+</button>
         </div>
       </div>
-      <button class="cart__item-remove" data-index="${index}">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33301 7.33301V10.6663M2.66634 3.99967H13.333L12.2797 13.4797C12.2436 13.8059 12.0884 14.1074 11.8438 14.3263C11.5993 14.5453 11.2826 14.6664 10.9543 14.6663H5.04501C4.71676 14.6664 4.40005 14.5453 4.15551 14.3263C3.91096 14.1074 3.75578 13.8059 3.71967 13.4797L2.66634 3.99967ZM4.89634 2.09767C5.00418 1.86899 5.17481 1.67567 5.38834 1.54028C5.60188 1.40489 5.8495 1.333 6.10234 1.33301H9.89701C10.15 1.33288 10.3977 1.40471 10.6114 1.5401C10.8251 1.6755 10.9958 1.86888 11.1037 2.09767L11.9997 3.99967H3.99967L4.89634 2.09767V2.09767ZM1.33301 3.99967H14.6663H1.33301ZM6.66634 7.33301V10.6663V7.33301Z" stroke="black" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </button>
     `;
     cartContainer.prepend(li);
 
-    totalPrice += item.price; // 총 금액에 가격 추가
+    totalPrice += item.price * item.quantity;
   });
 
   cartTotal.innerHTML = `<span>Total</span><span>₩${totalPrice.toLocaleString()}</span>`;
@@ -156,15 +172,45 @@ function renderCart() {
 
 renderCart();
 
-// 장바구니 제품 삭제
-// 삭제 버튼은 동적으로 생성되기 때문에 리스트 전체에 등록하고,
-// 그 안에 클릭된 요소가 삭제 버튼인지 확인
+// 장바구니 내 버튼 클릭
 cartContainer.addEventListener("click", (e) => {
+  // 감소 버튼 클릭
+  const decBtn = e.target.closest(".cart__qty-btn.dec");
+  if (decBtn) {
+    const idx = +decBtn.dataset.index;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart[idx].quantity > 1) {
+      cart[idx].quantity -= 1;
+    } else {
+      // 수량이 1일 때는 아예 항목 삭제
+      cart.splice(idx, 1);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    return;
+  }
+
+  // 증가 버튼 클릭
+  const incBtn = e.target.closest(".cart__qty-btn.inc");
+  if (incBtn) {
+    const idx = +incBtn.dataset.index;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart[idx].quantity += 1;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    return;
+  }
+
+  // 제품 삭제
   const removeBtn = e.target.closest(".cart__item-remove");
   if (removeBtn) {
-    const index = +removeBtn.dataset.index;
+    const idx = +removeBtn.dataset.index;
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.splice(index, 1);
+    cart.splice(idx, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
     renderCart();
   }
