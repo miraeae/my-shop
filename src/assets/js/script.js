@@ -132,9 +132,10 @@ function renderCart() {
   }
 
   // 총 상품 수량
-  const cartTotalNum = cart.length;
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   document.querySelectorAll(".cart__total-num").forEach((num) => {
-    num.textContent = `${cartTotalNum}`;
+    num.textContent = `${totalQuantity}`;
     num.style.display = "block";
   });
 
